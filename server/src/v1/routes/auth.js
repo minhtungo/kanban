@@ -8,8 +8,8 @@ const User = require('../models/user');
 router.post(
   '/signup',
   body('userName')
-    .isLength({ min: 8 })
-    .withMessage('Username must be at least 8 characters long'),
+    .isLength({ min: 6 })
+    .withMessage('Username must be at least 6 characters long'),
   body('password')
     .isLength({ min: 8 })
     .withMessage('Password must be at least 8 characters long'),
@@ -39,7 +39,7 @@ router.post(
   userController.login
 );
 
-router.post('verify-token', tokenHandler.verifyToken, (req, res) => {
+router.post('/verify-token', tokenHandler.verifyToken, (req, res) => {
   res.status(200).json({ user: req.user });
 });
 

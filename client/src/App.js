@@ -10,6 +10,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Home from './pages/Home';
 import Board from './pages/Board';
+import AppLayout from './components/layout/AppLayout';
 
 function App() {
   const theme = createTheme({
@@ -25,7 +26,7 @@ function App() {
             <Route path='login' element={<Login />} />
             <Route path='signup' element={<Signup />} />
           </Route>
-          <Route path='/' element={<AuthLayout />}>
+          <Route path='/' element={<AppLayout />}>
             <Route index element={<Home />} />
             <Route path='boards' element={<Home />} />
             <Route path='boards/:boardId' element={<Board />} />
