@@ -8,4 +8,6 @@ router.post('/', tokenHandler.verifyToken, boardController.create);
 
 router.get('/', tokenHandler.verifyToken, boardController.getAll);
 
-module.exports = router
+router.put('/', tokenHandler.verifyToken, boardController.updatePosition);
+
+module.exports = router;

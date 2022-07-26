@@ -5,24 +5,62 @@ import {
   Typography,
   IconButton,
   ListItem,
+  ListItemButton,
 } from '@mui/material';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import assets from './../../assets/index';
+import { useEffect, useState } from 'react';
+import assets from '../../assets/index';
+import boardApi from '../../api/boardApi';
+
+import { setBoards } from '../../redux/features/boardSlice';
 
 const Sidebar = () => {
   const user = useSelector((state) => state.user.value);
-  const navigate = useNavigate();
+  const boards = useSelector((state) => state.board.value);
+  const [activeIndex, setActiveIndex] = useState(0);
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { boardId } = useParams();
   const sidebarWidth = 250;
 
+  useEffect(() => {
+    const getBoards = async () => {
+      try {
+        const res = await boardApi.getAll();
+        dispatch(setBoards(res));
+      } catch (error) {
+        alert(error);
+      }
+    };
+    getBoards();
+  }, []);
+
+  useEffect(() => {
+    const activeItem = boards.findIndex((e) => e.id === boardId);
+    if (boards.length > 0 && boardId === undefined) {
+      navigate(`/boards/$boards[0].id`);
+    }
+    setActiveIndex(activeItem);
+  }, [boards, boardId, navigate]);
+
   const logout = () => {
-    console.log('heloo');
     localStorage.removeItem('token');
     navigate('/login');
+  };
+
+  const onDragEnd = ({ source, destination }) => {
+    const newList = [...boards];
+    const [removed] = newList.splice(source.index, 1);
+    newList.splice(destination.index, 0, removed);
+
+    const 
   };
 
   return (
@@ -72,7 +110,7 @@ const Sidebar = () => {
             }}
           >
             <Typography variant='body2' fontWeight='700'>
-              Favourites
+              Starred
             </Typography>
           </Box>
         </ListItem>
@@ -94,6 +132,49 @@ const Sidebar = () => {
             </IconButton>
           </Box>
         </ListItem>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable
+            key={'list-board-droppable'}
+            droppableId={'list-board-droppable'}
+          >
+            {(provided) => (
+              <div ref={provided.innerRef} {...provided.droppableProps}>
+                {boards.map((item, index) => (
+                  <Draggable key={item.id} draggableId={item.id} index={index}>
+                    {(provided, snapshot) => (
+                      <ListItemButton
+                        ref={provided.innerRef}
+                        {...provided.dragHandleProps}
+                        {...provided.draggableProps}
+                        selected={index === activeIndex}
+                        component={Link}
+                        to={`/boards/${item.id}`}
+                        sx={{
+                          pl: '20px',
+                          cursor: snapshot.isDragging
+                            ? 'grab'
+                            : 'pointer!important',
+                        }}
+                      >
+                        <Typography
+                          variant='body2'
+                          fontWeight='700'
+                          sx={{
+                            whiteSpace: 'nowrap',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                          }}
+                        >
+                          {item.icon} {item.title}
+                        </Typography>
+                      </ListItemButton>
+                    )}
+                  </Draggable>
+                ))}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
       </List>
     </Drawer>
   );
