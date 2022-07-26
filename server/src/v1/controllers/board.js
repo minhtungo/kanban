@@ -34,3 +34,19 @@ exports.updatePosition = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
+exports.getOne = async (req, res) => {
+  const { boardId } = req.params;
+  try {
+    const board = await Board.findOne({ user: req.user._id, _id: boardId });
+    if (!board) return res.status(404).json('Not Found');
+    const sections = await Section.find({ board: boardId });
+    for (const section of sections) {
+      const tasks = await Task.find({ section: section.id })
+        .populate('section')
+        .sort(-position);
+    }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};

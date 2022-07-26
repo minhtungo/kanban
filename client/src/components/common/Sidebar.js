@@ -55,12 +55,29 @@ const Sidebar = () => {
     navigate('/login');
   };
 
-  const onDragEnd = ({ source, destination }) => {
+  const onDragEnd = async ({ source, destination }) => {
     const newList = [...boards];
     const [removed] = newList.splice(source.index, 1);
     newList.splice(destination.index, 0, removed);
 
-    const 
+    const activeItem = newList.findIndex((e) => e.id === boardId);
+    setActiveIndex(activeItem);
+    dispatch(setBoards(newList));
+
+    try {
+      await boardApi.updatePosition({ boards: newList });
+    } catch (error) {}
+  };
+
+  const addBoard = async () => {
+    try {
+      const res = await boardApi.create();
+      const newList = [res, ...boards];
+      dispatch(setBoards(newList));
+      navigate(`/boards/${res.id}`);
+    } catch (error) {
+      alert(error);
+    }
   };
 
   return (
@@ -127,7 +144,7 @@ const Sidebar = () => {
             <Typography variant='body2' fontWeight='700'>
               Private
             </Typography>
-            <IconButton onClick={logout}>
+            <IconButton onClick={addBoard}>
               <AddBoxOutlinedIcon fontSize='small' />
             </IconButton>
           </Box>
@@ -171,6 +188,7 @@ const Sidebar = () => {
                     )}
                   </Draggable>
                 ))}
+                {provided.placeholder}
               </div>
             )}
           </Droppable>
