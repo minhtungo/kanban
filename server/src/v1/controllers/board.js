@@ -1,4 +1,6 @@
 const Board = require('../models/board');
+const Section = require('../models/section');
+const Task = require('../models/task');
 
 exports.create = async (req, res) => {
   try {
@@ -45,7 +47,10 @@ exports.getOne = async (req, res) => {
       const tasks = await Task.find({ section: section.id })
         .populate('section')
         .sort(-position);
+      section._doc.tasks = tasks;
     }
+    board._doc.sections = sections;
+    res.status(200).json(board);
   } catch (error) {
     res.status(500).json(error);
   }
