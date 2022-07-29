@@ -45,7 +45,7 @@ const Sidebar = () => {
   useEffect(() => {
     const activeItem = boards.findIndex((e) => e.id === boardId);
     if (boards.length > 0 && boardId === undefined) {
-      navigate(`/boards/$boards[0].id`);
+      navigate(`/boards/${boards[0].id}`);
     }
     setActiveIndex(activeItem);
   }, [boards, boardId, navigate]);
