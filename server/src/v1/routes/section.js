@@ -1,7 +1,8 @@
 const router = require('express').Router({ mergeParams: true });
 const tokenHandler = require('../handlers/tokenHandler');
-const sectionController = require('../handlers/section');
+const sectionController = require('../controllers/section');
 const validation = require('../handlers/validation');
+const { param } = require('express-validator');
 
 router.post(
   '/',

@@ -18,6 +18,7 @@ import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import EmojiPicker from '../components/common/EmojiPicker';
 import { setBoards } from '../redux/features/boardSlice';
 import { setStarredList } from '../redux/features/starredSlice';
+import Kanban from './../components/common/Kanban';
 
 let timer;
 const timeout = 500;
@@ -47,6 +48,7 @@ const Board = () => {
         console.log(res);
       } catch (error) {
         alert(error);
+        console.log(error);
       }
     };
     getBoard();
@@ -200,19 +202,7 @@ const Board = () => {
         </Box>
 
         <Box>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}
-          >
-            <Button>Add section</Button>
-            <Typography variant='body2' fontWeight='700'>
-              {sections.length} Sections
-            </Typography>
-          </Box>
-          <Divider sx={{ margin: '10px 0' }} />
+          <Kanban data={sections} boardId={boardId} />
         </Box>
       </Box>
     </>
