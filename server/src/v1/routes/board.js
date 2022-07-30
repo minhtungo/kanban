@@ -8,6 +8,10 @@ router.post('/', tokenHandler.verifyToken, boardController.create);
 
 router.get('/', tokenHandler.verifyToken, boardController.getAll);
 
+router.get('/stars', tokenHandler.verifyToken, boardController.getStars);
+
+router.put('/stars', tokenHandler.verifyToken, boardController.updateStarredPosition);
+
 router.put('/', tokenHandler.verifyToken, boardController.updatePosition);
 
 router.get(
@@ -32,6 +36,18 @@ router.put(
   validation.validate,
   tokenHandler.verifyToken,
   boardController.update
+);
+
+router.delete(
+  '/:boardId',
+  param('boardId').custom((value) => {
+    if (!validation.isObjectId(value)) {
+      return Promise.reject('Invalid board id');
+    } else return Promise.resolve();
+  }),
+  validation.validate,
+  tokenHandler.verifyToken,
+  boardController.delete
 );
 
 module.exports = router;

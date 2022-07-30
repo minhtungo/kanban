@@ -10,6 +10,7 @@ import {
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import StarredList from './StarredList';
 
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -117,20 +118,8 @@ const Sidebar = () => {
           </Box>
         </ListItem>
         <Box sx={{ paddingTop: '10px' }} />
-        <ListItem>
-          <Box
-            sx={{
-              width: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}
-          >
-            <Typography variant='body2' fontWeight='700'>
-              Starred
-            </Typography>
-          </Box>
-        </ListItem>
+        <StarredList />
+
         <Box sx={{ paddingTop: '10px' }} />
         <ListItem>
           <Box
