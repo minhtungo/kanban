@@ -12,6 +12,8 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import AddOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import sectionApi from './../../api/sectionApi';
+import taskApi from './../../api/taskApi';
+import TaskModal from './TaskModal';
 
 let timer;
 const timeout = 500;
@@ -19,12 +21,50 @@ const timeout = 500;
 const Kanban = (props) => {
   const boardId = props.boardId;
   const [data, setData] = useState([]);
+  const [selectedTask, setSelectedTask] = useState(undefined);
 
   useEffect(() => {
     setData(props.data);
   }, [props.data]);
 
-  const onDragEnd = () => {};
+  const onDragEnd = async ({ source, destination }) => {
+    if (!destination) return;
+    const sourceColIndex = data.findIndex((e) => e.id === source.droppableId);
+    const destinationColIndex = data.findIndex(
+      (e) => e.id === destination.droppableId
+    );
+    const sourceCol = data[sourceColIndex];
+    const destinationCol = data[destinationColIndex];
+
+    const sourceSectionId = sourceCol.id;
+    const destinationSectionId = destinationCol.id;
+
+    const sourceTasks = [...sourceCol.tasks];
+    const destinationTasks = [...destinationCol.tasks];
+
+    if (source.droppableId !== destination.droppableId) {
+      const [removed] = sourceTasks.splice(source.index, 1);
+      destinationTasks.splice(destination.index, 0, removed);
+      data[sourceColIndex].tasks = sourceTasks;
+      data[destinationColIndex].tasks = destinationTasks;
+    } else {
+      const [removed] = destinationTasks.splice(source.index, 1);
+      destinationTasks.splice(destination.index, 0, removed);
+      data[destinationColIndex].tasks = destinationTasks;
+    }
+
+    try {
+      await taskApi.updatePosition(boardId, {
+        resourceList: sourceTasks,
+        destinationList: destinationTasks,
+        resourceSectionId: sourceSectionId,
+        destinationSectionId: destinationSectionId,
+      });
+      setData(data);
+    } catch (err) {
+      alert(err);
+    }
+  };
 
   const createSection = async () => {
     try {
@@ -61,7 +101,36 @@ const Kanban = (props) => {
     }, timeout);
   };
 
-  const createTask = async (sectionId) => {};
+  const createTask = async (sectionId) => {
+    try {
+      const task = await taskApi.create(boardId, { sectionId });
+      const newData = [...data];
+      const index = newData.findIndex((e) => e.id === sectionId);
+      newData[index].tasks.unshift(task);
+      setData(newData);
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  const onUpdateTask = (task) => {
+    const newData = [...data];
+    const sectionIndex = newData.findIndex((e) => e.id === task.section.id);
+    const taskIndex = newData[sectionIndex].tasks.findIndex(
+      (e) => e.id === task.id
+    );
+    newData[sectionIndex].tasks[taskIndex] = task;
+    setData(newData);
+  };
+  const onDeleteTask = (task) => {
+    const newData = [...data];
+    const sectionIndex = newData.findIndex((e) => e.id === task.section.id);
+    const taskIndex = newData[sectionIndex].tasks.findIndex(
+      (e) => e.id === task.id
+    );
+    newData[sectionIndex].tasks.splice(taskIndex, 1);
+    setData(newData);
+  };
 
   return (
     <>
@@ -83,7 +152,7 @@ const Kanban = (props) => {
         <Box
           sx={{
             display: 'flex',
-            alignItems: 'flex-end',
+            alignItems: 'flex-start',
             width: 'calc(100vw - 400px)',
             overflowX: 'auto',
           }}
@@ -167,6 +236,7 @@ const Kanban = (props) => {
                                 ? 'grab'
                                 : 'pointer!important',
                             }}
+                            onClick={() => setSelectedTask(task)}
                           >
                             <Typography>
                               {task.title === '' ? 'Untitled' : task.title}
@@ -183,6 +253,13 @@ const Kanban = (props) => {
           ))}
         </Box>
       </DragDropContext>
+      <TaskModal
+        task={selectedTask}
+        boardId={boardId}
+        onClose={() => setSelectedTask(undefined)}
+        onUpdate={onUpdateTask}
+        onDelete={onDeleteTask}
+      />
     </>
   );
 };

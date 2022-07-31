@@ -52,7 +52,7 @@ exports.updatePosition = async (req, res) => {
     destinationSectionId,
   } = req.body;
   const resourceListReverse = resourceList.reverse();
-  const destinationReverse = destinationList.reverse();
+  const destinationListReverse = destinationList.reverse();
   try {
     if (resourceSectionId !== destinationSectionId) {
       for (const key in resourceListReverse) {
@@ -73,7 +73,7 @@ exports.updatePosition = async (req, res) => {
       });
     }
     res.status(200).json('Updated');
-  } catch (error) {
-    res.status(500).json(error);
+  } catch (err) {
+    res.status(500).json(err);
   }
 };
