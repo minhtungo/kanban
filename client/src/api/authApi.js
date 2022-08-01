@@ -2,11 +2,11 @@ import axiosClient from './axiosClient';
 
 const authApi = {
   signup: (params) =>
-    axiosClient.post('http://localhost:5000/api/v1/auth/signup', params),
+    axiosClient.post('/auth/signup', params),
   login: (params) =>
-    axiosClient.post('http://localhost:5000/api/v1/auth/login', params),
+    axiosClient.post('/auth/login', params),
   verifyToken: (params) =>
-    axiosClient.post('http://localhost:5000/api/v1/auth/verify-token'),
+    axiosClient.post('/auth/verify-token'),
 };
 
 export default authApi;

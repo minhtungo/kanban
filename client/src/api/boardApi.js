@@ -1,18 +1,18 @@
 import axiosClient from './axiosClient';
 
 const boardApi = {
-  create: () => axiosClient.post('http://localhost:5000/api/v1/boards'),
-  getAll: () => axiosClient.get('http://localhost:5000/api/v1/boards'),
+  create: () => axiosClient.post('/boards'),
+  getAll: () => axiosClient.get('/boards'),
   updatePosition: (params) =>
-    axiosClient.put('http://localhost:5000/api/v1/boards', params),
-  getOne: (id) => axiosClient.get(`http://localhost:5000/api/v1/boards/${id}`),
-  delete: (id) => axiosClient.delete(`http://localhost:5000/api/v1/boards/${id}`),
+    axiosClient.put('/boards', params),
+  getOne: (id) => axiosClient.get(`/boards/${id}`),
+  delete: (id) => axiosClient.delete(`/boards/${id}`),
   update: (id, params) =>
-    axiosClient.put(`http://localhost:5000/api/v1/boards/${id}`, params),
+    axiosClient.put(`/boards/${id}`, params),
   getStars: () =>
-    axiosClient.get('http://localhost:5000/api/v1/boards/stars'),
+    axiosClient.get('/boards/stars'),
   updateStarredPosition: (params) =>
-    axiosClient.put('http://localhost:5000/api/v1/boards/stars', params),
+    axiosClient.put('/boards/stars', params),
 };
 
 export default boardApi;
