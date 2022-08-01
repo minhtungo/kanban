@@ -1,7 +1,7 @@
 import axios from 'axios';
 import queryString from 'query-string';
 
-const baseUrl = 'api/v1/';
+const baseUrl = 'https://minh-kanban.herokuapp.com/api/v1/';
 const getToken = () => localStorage.getItem('token');
 
 const axiosClient = axios.create({
