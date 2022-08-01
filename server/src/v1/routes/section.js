@@ -42,7 +42,7 @@ router.delete(
   }),
   param('sectionId').custom((value) => {
     if (!validation.isObjectId(value)) {
-      return Promise.reject('Invalid sectopn id');
+      return Promise.reject('Invalid section id');
     } else return Promise.resolve();
   }),
   validation.validate,

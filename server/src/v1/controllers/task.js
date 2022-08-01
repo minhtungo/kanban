@@ -36,11 +36,11 @@ exports.delete = async (req, res) => {
       'position'
     );
     for (const key in tasks) {
-      await Task.findByIdAndUpDate(tasks[key].id, { $set: { position: key } });
+      await Task.findByIdAndUpdate(tasks[key].id, { $set: { position: key } });
     }
-    res.status(200).json('Deleted');
-  } catch (error) {
-    res.status(500).json(error);
+    res.status(200).json('deleted');
+  } catch (err) {
+    res.status(500).json(err);
   }
 };
 
