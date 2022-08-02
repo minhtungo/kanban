@@ -2,15 +2,15 @@ import { Box } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import authUtils from './../../utils/authUtils';
-import Loading from './../common/Loading';
-import Sidebar from './../common/Sidebar';
+import authUtils from '../../utils/authUtils';
+import Loading from '../common/Loading';
+import Sidebar from '../common/Sidebar';
 import { setUser } from '../../redux/features/userSlice';
 
 const AppLayout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -18,7 +18,7 @@ const AppLayout = () => {
       if (!user) {
         navigate('/login');
       } else {
-        //save user
+        // save user
         dispatch(setUser(user));
         setLoading(false);
       }
@@ -47,4 +47,5 @@ const AppLayout = () => {
     </Box>
   );
 };
+
 export default AppLayout;

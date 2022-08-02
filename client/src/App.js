@@ -3,15 +3,15 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import './css/custom-scrollbar.css';
-import CssBaseline from '@mui/material/CssBaseline';
+import CssBaseLine from '@mui/material/CssBaseline';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import AppLayout from './components/layout/AppLayout';
 import AuthLayout from './components/layout/AuthLayout';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
 import Home from './pages/Home';
 import Board from './pages/Board';
-import AppLayout from './components/layout/AppLayout';
+import Signup from './pages/Signup';
+import Login from './pages/Login';
 
 function App() {
   const theme = createTheme({
@@ -20,7 +20,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline />
+      <CssBaseLine />
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<AuthLayout />}>

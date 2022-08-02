@@ -1,13 +1,13 @@
-import { Box, Container } from '@mui/material';
+import { Container, Box } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import authUtils from './../../utils/authUtils';
-import Loading from './../common/Loading';
+import authUtils from '../../utils/authUtils';
+import Loading from '../common/Loading';
 import assets from '../../assets';
 
 const AuthLayout = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -36,11 +36,12 @@ const AuthLayout = () => {
         <img
           src={assets.images.logoDark}
           style={{ width: '100px' }}
-          alt='Logo'
+          alt='app logo'
         />
         <Outlet />
       </Box>
     </Container>
   );
 };
+
 export default AuthLayout;
