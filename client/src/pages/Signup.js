@@ -1,10 +1,8 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Box, Button, TextField } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
-
-import { useNavigate } from 'react-router-dom';
-import authApi from './../api/authApi';
+import authApi from '../api/authApi';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -42,12 +40,13 @@ const Signup = () => {
     }
     if (password !== confirmPassword) {
       err = true;
-      setConfirmPasswordErr('Confirm password not match ');
+      setConfirmPasswordErr('Confirm password does not match ');
     }
 
     if (err) return;
 
     setLoading(true);
+    
     try {
       const res = await authApi.signup({
         userName,

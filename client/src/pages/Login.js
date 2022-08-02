@@ -1,10 +1,9 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Box, Button, TextField } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 
-import authApi from './../api/authApi';
+import authApi from '../api/authApi';
 
 const Login = () => {
   const navigate = useNavigate();
