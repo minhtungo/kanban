@@ -62,7 +62,7 @@ exports.update = async (req, res) => {
 
   try {
     if (title === '') req.body.title = 'Untitled';
-    if (description === '') req.body.description = 'Add description here.';
+    if (description === '') req.body.description = '';
     const currentBoard = await Board.findById(boardId);
     console.log(currentBoard);
     if (!currentBoard) return res.status(404).json('Not Found');

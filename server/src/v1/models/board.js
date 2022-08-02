@@ -19,7 +19,7 @@ const boardSchema = new Schema(
     },
     description: {
       type: String,
-      default: `Add description here`,
+      default: ``,
     },
     position: {
       type: Number,
