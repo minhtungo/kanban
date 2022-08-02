@@ -1,14 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import boardApi from '../api/boardApi';
-import {
-  Box,
-  Button,
-  Divider,
-  IconButton,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Box, IconButton, TextField } from '@mui/material';
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 
@@ -45,10 +38,8 @@ const Board = () => {
         setSections(res.sections);
         setIsStarred(res.starred);
         setIcon(res.icon);
-        console.log(res);
       } catch (error) {
         alert(error);
-        console.log(error);
       }
     };
     getBoard();

@@ -10,7 +10,6 @@ const EmojiPicker = (props) => {
 
   useEffect(() => {
     setSelectedEmoji(props.icon);
-    console.log(props.icon);
   }, [props.icon]);
 
   const selectEmoji = (e) => {

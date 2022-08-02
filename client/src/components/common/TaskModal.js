@@ -161,9 +161,9 @@ const TaskModal = (props) => {
                 marginBottom: '10px',
               }}
             />
-            <Typography variant='body2' fontWeight='700'>
+            <Typography variant='body2' fontWeight='500'>
               {task !== undefined
-                ? Moment(task.createdAt).format('YYYY-MM-DD')
+                ? Moment(task.createdAt).format('LLLL')
                 : ''}
             </Typography>
             <Divider sx={{ margin: '1.5rem 0' }} />

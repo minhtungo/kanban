@@ -121,7 +121,6 @@ exports.updateStarredPosition = async (req, res) => {
 };
 
 exports.delete = async (req, res) => {
-  console.log('hello');
   const { boardId } = req.params;
   try {
     const sections = await Section.find({ board: boardId });

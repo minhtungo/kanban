@@ -11,7 +11,7 @@ const Loading = (props) => {
         height: props.fullHeight ? '100vh' : '100%',
       }}
     >
-        <CircularProgress />s
+        <CircularProgress />
     </Box>
   );
 };

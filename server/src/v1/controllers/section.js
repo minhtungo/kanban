@@ -16,12 +16,13 @@ exports.update = async (req, res) => {
   const { sectionId } = req.params;
   try {
     const section = await Section.findByIdAndUpdate(sectionId, {
-      $set: rep.body,
+      $set: req.body,
     });
     section._doc.tasks = [];
     res.status(200).json(section);
-  } catch (error) {
-    res.status(500).json(error);
+  } catch (err) {
+    console.log('gello');
+    res.status(500).json(err);
   }
 };
 
